@@ -1,0 +1,7 @@
+pyacoustid>=1.3.0
+mutagen>=1.47.0
+
+# 注意：Windows 用户还需要单独安装 chromaprint 的二进制文件
+# 请访问 https://acoustid.org/chromaprint 下载 Windows 版本
+# 解压后将 fpcalc.exe 放到系统 PATH 中
+

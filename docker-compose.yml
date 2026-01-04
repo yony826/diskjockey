@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  diskjockey:
+    build: .
+    container_name: diskjockey
+    environment:
+      - ACOUSTID_API_KEY=${ACOUSTID_API_KEY}  # 请通过环境变量或 .env 文件设置
+      - MUSIC_DIR=/music  # 容器内音乐目录路径
+      - CONFIDENCE_THRESHOLD=0.85  # 置信度阈值，提高以减少错误匹配
+      - ADDITIONAL_VALIDATION=true  # 启用额外验证机制
+      - MIN_SCORE_GAP=0.1  # 最佳匹配与次佳匹配之间的最小分数差
+      - DEBUG_MODE=false  # 调试模式，设为 false 以减少输出
+      - RENAME_FILES=true  # 是否自动重命名文件
+      - FILE_NAME_FORMAT={artist} - {title}  # 文件名格式
+      - SHOW_MULTIPLE_MATCHES=true  # 是否显示多个匹配候选
+      - REQUIRE_CONFIRMATION=false  # 是否要求人工确认（Docker环境通常设为false）
+      - SKIP_EXISTING_TAGS=false  # 是否跳过已有标签的文件
+      - SHOW_TAG_COMPARISON=true  # 是否显示新旧标签对比
+      - LOW_CONFIDENCE_THRESHOLD=0.7  # 低置信度阈值
+    volumes:
+      - "${MUSIC_HOST_PATH:-/path/to/your/music}:/music:rw"  # 请替换为你的本地音乐文件夹路径
+    # 如果需要运行完成后自动退出，请取消下面的注释
+    # command: ["python", "diskjockey.py"]
+    restart: unless-stopped
+    # 可选：限制资源使用
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5'
+    #       memory: 512M
+
